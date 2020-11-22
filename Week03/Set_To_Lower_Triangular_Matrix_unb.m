@@ -1,10 +1,11 @@
-function [A_out] = Set_To_Unit_Upper_Triangular_Matrix_unb(A)
-%SET_TO_UNIT_UPPER_TRIANGULAR_MATRIX_UNB - sets input matrix A to
-% the UNIT upper triangular matrix (lower triangular is zeros, diagonal is ones).
+function [A_out] = Set_To_Lower_Triangular_Matrix_unb(A)
+%SET_TO_LOWER_TRIANGULAR_MATRIX_UNB Summary 
 
-% UT Austin Linear Algebra - Foundations to Frontiers
+% This method sets input matrix A to the lower
+% triangular matrix (upper triangular is zeros).
+
 % LAFF Homework 3.2.2.2
-% Date: 11/19/2020
+% Date: 11/21/2020
 % Created by: Logan Kells
 
 % NOTE: The following code was created using the SPARK code generator.
@@ -26,9 +27,7 @@ function [A_out] = Set_To_Unit_Upper_Triangular_Matrix_unb(A)
     %------------------------------------------------------------%
 
     % Set lower triangular matrix to zeros.
-    a21 = laff_zerov(a21);
-    % Set the diagonal to ones.
-    alpha11 = laff_onev(alpha11);
+    a01 = laff_zerov(a01);
 
     %------------------------------------------------------------%
 
@@ -43,6 +42,3 @@ function [A_out] = Set_To_Unit_Upper_Triangular_Matrix_unb(A)
             ABL, ABR ];
 
 return
-
-
-

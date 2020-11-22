@@ -1,18 +1,17 @@
-function [A_out] = Set_To_Unit_Upper_Triangular_Matrix_unb(A)
-%SET_TO_UNIT_UPPER_TRIANGULAR_MATRIX_UNB - sets input matrix A to
-% the UNIT upper triangular matrix (lower triangular is zeros, diagonal is ones).
+function [A_out] = Symmetrize_From_Upper_Triangle_unb(A)
+% This method sets lower triangle equivalent to the upper triangle of the matrix, A.
 
 % UT Austin Linear Algebra - Foundations to Frontiers
-% LAFF Homework 3.2.2.2
-% Date: 11/19/2020
+% LAFF Homework 3.2.6.5
+% Date: 11/21/2020
 % Created by: Logan Kells
 
 % NOTE: The following code was created using the SPARK code generator.
 % http://edx-org-utaustinx.s3.amazonaws.com/UT501x/Spark/index.html
 
 
-  [ ATL, ATR, ...
-    ABL, ABR ] = FLA_Part_2x2( A, ...
+[ ATL, ATR, ...
+  ABL, ABR ] = FLA_Part_2x2( A, ...
                                0, 0, 'FLA_TL' );
 
   while ( size( ATL, 1 ) < size( A, 1 ) )
@@ -24,11 +23,10 @@ function [A_out] = Set_To_Unit_Upper_Triangular_Matrix_unb(A)
                                                     1, 1, 'FLA_BR' );
 
     %------------------------------------------------------------%
-
-    % Set lower triangular matrix to zeros.
-    a21 = laff_zerov(a21);
-    % Set the diagonal to ones.
-    alpha11 = laff_onev(alpha11);
+    % Copy contents from a01->a10t.
+    % NOTE: a10t is a row vector. Transpose can occur using
+    % lafff_copy(x,y).
+    a10t = laff_copy(a01, a10t);
 
     %------------------------------------------------------------%
 
@@ -37,12 +35,12 @@ function [A_out] = Set_To_Unit_Upper_Triangular_Matrix_unb(A)
                                              a10t, alpha11, a12t, ...
                                              A20,  a21,     A22, ...
                                              'FLA_TL' );
+
   end
 
   A_out = [ ATL, ATR
             ABL, ABR ];
 
 return
-
-
+end
 
