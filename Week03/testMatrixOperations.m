@@ -95,3 +95,36 @@ A_upperT = Set_To_Upper_Triangular_Matrix_unb(A);
 A_symmetric = Symmetrize_From_Upper_Triangle_unb(A_upperT);
 display(A_symmetric);
 
+% Scale a matrix A with scalar beta.
+disp("***************************");
+disp("Testing Scaling a matrix.");
+A = randi([-9,9],5,5);
+display(A);
+beta = 2;
+disp("beta = " + beta);
+A_scaled = Scale_Matrix_unb(beta, A);
+display(A_scaled);
+
+% Calculate axpy using matrix-vector dot products: Ax + y
+disp("***************************");
+disp("Testing y_out = Ax + y calculation variant 1 (HW #3.4.1.1)");
+A = randi([-9,9], 3, 3); % 5x5 matrix.
+x = randi([-9,9], 3, 1); % 5x1 column vector.
+y = laff_zerov(x); % 5x1 column vector.
+display(A);
+display(x);
+display(y);
+y_out = Mvmult_n_unb_var1(A, x, y);
+display(y_out);
+
+% Calculate axpy using matrix-vector dot products: Ax + y
+disp("***************************");
+disp("Testing y_out = Ax + y calculation variant 2 (HW #3.4.2.1)");
+A = randi([-9,9], 3, 3); % 5x5 matrix.
+x = randi([-9,9], 3, 1); % 5x1 column vector.
+y = laff_zerov(x); % 5x1 column vector.
+display(A);
+display(x);
+display(y);
+y_out = Mvmult_n_unb_var2(A, x, y);
+display(y_out);
