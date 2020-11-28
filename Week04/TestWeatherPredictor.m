@@ -20,4 +20,3 @@ x_prediction = WeatherPredictor(P, x_today, 4);
 display(x_prediction);
 
 disp("***************************");
-P * P

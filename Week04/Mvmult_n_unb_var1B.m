@@ -1,5 +1,7 @@
 function [y_out] = Mvmult_n_unb_var1B(A, x, y)
-% MVMULT_N_UNB_VAR1B 
+% MVMULT_N_UNB_VAR1B = [M]atrix-[V]ector [MULT]iply 
+% that is [N]ot trans-posed, [UNB]locked [VAR]iant [1B].
+
 % This method calculates a matrix-vector multiplication y_out = Ax + y.
 % var1B utilizes an algorithm that slices the matrix into rows which 
 % are used in the loop which calculates using laff_dot (vector dot

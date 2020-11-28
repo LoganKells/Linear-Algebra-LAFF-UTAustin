@@ -1,5 +1,7 @@
 function [y_out] = Mvmult_n_unb_var2B(A, x, y)
-% MVMULT_N_UNB_VAR2B
+% MVMULT_N_UNB_VAR2B = [M]atrix-[V]ector [MULT]iply 
+% that is [N]ot trans-posed, [UNB]locked [VAR]iant [2B].
+
 
 % This method calculates a matrix-vector multiplication y_out = Ax + y.
 % var2B utilizes an algorithm that slices the matrix into columns
