@@ -1,4 +1,4 @@
-function [x_out] = Trmv_un_unb_var1(U, x)
+function [x_out] = Trmv_un_unb_var2(U, x)
 fprintf("LAFF Homework 4.3.2.5\n");
 fprintf("TRMV_UN_UNB_VAR1 - See LAFF figure 4.6 (http://www.ulaff.net).\n");
 
@@ -50,17 +50,11 @@ while ( size( UTL, 1 ) < size( U, 1 ) )
     %------------------------------------------------------------%
     % Calculate according to LAFF Figure 4.6 (http://www.ulaff.net).
     % Calculate x_out = U*x
-    
-    % First transpose row vectors to column vectors to match x0 and x2.
-    u12 = laff_copy(u12t, x2);
-    
-    % Note, transposing u10t is unnecessary because u10t is a zeros vector
-    % if we assumed matrix U is an upper triangular matrix. Threfore we
-    % comment this code out.
-    % u10 = laff_copy(u10t, x0);
-    
-    % Utilize algorithm chi := u10*x0 + upsilon11
-    chi1 = laff_dot(u12, x2) + laff_dot(upsilon11, chi1);
+    x0 = laff_scal(chi1, u01) + x0;
+    chi1 = laff_scal(chi1, upsilon11);
+    % The x2 calculation is not required because matrix U is assumed to 
+    % be an upper triangular matrix
+    %x2 = laff_scal(chi1, u21) + x2;
 
     %------------------------------------------------------------%
 
@@ -78,4 +72,6 @@ end
   x_out = [ xT
             xB ];
 return
+
+
 

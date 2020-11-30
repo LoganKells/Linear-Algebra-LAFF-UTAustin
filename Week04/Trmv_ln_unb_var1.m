@@ -1,9 +1,9 @@
-function [x_out] = Trmv_un_unb_var1(U, x)
-fprintf("LAFF Homework 4.3.2.5\n");
-fprintf("TRMV_UN_UNB_VAR1 - See LAFF figure 4.6 (http://www.ulaff.net).\n");
+function [x_out] = Trmv_ln_unb_var1(L, x)
+fprintf("LAFF Homework 4.3.2.7\n");
+fprintf("TRMV_LN_UNB_VAR1 - See LAFF figure 4.7 (http://www.ulaff.net).\n");
 
-% TRMV_UN_UNB_VAR1 = [TR]iangular [M]atrix-[V]ector multiply, 
-% with [U]pper triangular matrix that is [N]ot trans-posed, [UNB]locked 
+% TRMV_LN_UNB_VAR1 = [TR]iangular [M]atrix-[V]ector multiply, 
+% with [L]ower triangular matrix that is [N]ot trans-posed, [UNB]locked 
 % [VAR]iant [1].
 
 % This algorithm compute x := Ux, where U is an upper triangular matrix.
@@ -24,58 +24,64 @@ fprintf("TRMV_UN_UNB_VAR1 - See LAFF figure 4.6 (http://www.ulaff.net).\n");
 % http://edx-org-utaustinx.s3.amazonaws.com/UT501x/PictureFLAME/PictureFLAME.html
 
 % UT Austin Linear Algebra: Foundations to Frontiers (http://www.ulaff.net)
-% LAFF Homework 4.3.2.5
+% LAFF Homework 4.3.2.7
 % Date: 11/28/2020
 % Created by: Logan Kells
 
-  [ UTL, UTR, ...
-    UBL, UBR ] = FLA_Part_2x2( U, ...
-                               0, 0, 'FLA_TL' );
+  [ LTL, LTR, ...
+    LBL, LBR ] = FLA_Part_2x2( L, ...
+                               0, 0, 'FLA_BR' );
+
   [ xT, ...
     xB ] = FLA_Part_2x1( x, ...
-                         0, 'FLA_TOP' );
+                         0, 'FLA_BOTTOM' );
 
-while ( size( UTL, 1 ) < size( U, 1 ) )
-    [ U00,  u01,       U02,  ...
-      u10t, upsilon11, u12t, ...
-      U20,  u21,       U22 ] = FLA_Repart_2x2_to_3x3( UTL, UTR, ...
-                                                      UBL, UBR, ...
-                                                      1, 1, 'FLA_BR' );
+  while ( size( LBR, 1 ) < size( L, 1 ) )
+
+    [ L00,  l01,      L02,  ...
+      l10t, lambda11, l12t, ...
+      L20,  l21,      L22 ] = FLA_Repart_2x2_to_3x3( LTL, LTR, ...
+                                                     LBL, LBR, ...
+                                                     1, 1, 'FLA_TL' );
+
     [ x0, ...
       chi1, ...
       x2 ] = FLA_Repart_2x1_to_3x1( xT, ...
                                     xB, ...
-                                    1, 'FLA_BOTTOM' );
+                                    1, 'FLA_TOP' );
 
     %------------------------------------------------------------%
-    % Calculate according to LAFF Figure 4.6 (http://www.ulaff.net).
+    % % Calculate according to LAFF Figure 4.7 (http://www.ulaff.net).
     % Calculate x_out = U*x
     
     % First transpose row vectors to column vectors to match x0 and x2.
-    u12 = laff_copy(u12t, x2);
+    l10 = laff_copy(l10t, x0);
     
-    % Note, transposing u10t is unnecessary because u10t is a zeros vector
-    % if we assumed matrix U is an upper triangular matrix. Threfore we
+    % Note, transposing l12t is unnecessary because l12t is a zeros vector
+    % if we assumed matrix L is a lower triangular matrix. Threfore we
     % comment this code out.
-    % u10 = laff_copy(u10t, x0);
+    %l12 = laff_copy(l12t, x2);
     
     % Utilize algorithm chi := u10*x0 + upsilon11
-    chi1 = laff_dot(u12, x2) + laff_dot(upsilon11, chi1);
-
+    chi1 = laff_dot(lambda11, chi1);
+    chi1 = laff_dot(l10, x0) + chi1;
     %------------------------------------------------------------%
 
-    [ UTL, UTR, ...
-      UBL, UBR ] = FLA_Cont_with_3x3_to_2x2( U00,  u01,       U02,  ...
-                                             u10t, upsilon11, u12t, ...
-                                             U20,  u21,       U22, ...
-                                             'FLA_TL' );
+    [ LTL, LTR, ...
+      LBL, LBR ] = FLA_Cont_with_3x3_to_2x2( L00,  l01,      L02,  ...
+                                             l10t, lambda11, l12t, ...
+                                             L20,  l21,      L22, ...
+                                             'FLA_BR' );
+
     [ xT, ...
       xB ] = FLA_Cont_with_3x1_to_2x1( x0, ...
                                        chi1, ...
                                        x2, ...
-                                       'FLA_TOP' );
-end
+                                       'FLA_BOTTOM' );
+
+  end
+
   x_out = [ xT
             xB ];
-return
 
+return

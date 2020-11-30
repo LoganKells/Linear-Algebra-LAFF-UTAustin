@@ -1,18 +1,10 @@
-function [y_out] = Trmvp_ln_unb_var1(L, x, y)
-fprintf("LAFF Homework 4.3.2.3\n");
-fprintf("TRMVP_LN_UNB_VAR1 - See LAFF figure 4.7 (http://www.ulaff.net).\n");
+function [y_out] = Trmvp_lt_unb_var1(L, x, y)
+fprintf("LAFF Homework 4.3.2.8\n");
+fprintf("TRMVP_LT_UNB_VAR1 - See LAFF figure 4.3 (http://www.ulaff.net).\n");
 
-% TRMVP_LN_UNB_VAR1 = [TR]iangular [M]atrix-[V]ector multiply [P]lus y, 
-% with [L]ower triangular matrix that is [N]ot trans-posed, [UNB]locked 
+% TRMVP LT UNB VAR1 = [TR]iangular [M]atrix-[V]ector multiply [P]lus y, 
+% with [L]ower triangular matrix that is [T]rans-posed, [UNB]locked
 % [VAR]iant [1].
-
-% This method calculates a matrix-vector multiplication y_out = Ax + y with
-% efficiency gain by assuming A is an lower triangular matrix (A->L is a
-% lower triangular matrix).
-
-% The matrix L is sliced by rows and columns into sub-matrices
-% and vectors which are transposed prior to calculating
-% the vector-vector dot product of A_slice * x.
 
 % NOTE: The following code was created using the SPARK code generator.
 % http://edx-org-utaustinx.s3.amazonaws.com/UT501x/Spark/index.html
@@ -22,8 +14,8 @@ fprintf("TRMVP_LN_UNB_VAR1 - See LAFF figure 4.7 (http://www.ulaff.net).\n");
 % http://edx-org-utaustinx.s3.amazonaws.com/UT501x/PictureFLAME/PictureFLAME.html
 
 % UT Austin Linear Algebra: Foundations to Frontiers (http://www.ulaff.net)
-% LAFF Homework 4.3.2.3
-% Date: 11/28/2020
+% LAFF Homework 4.3.2.8
+% Date: 11/29/2020
 % Created by: Logan Kells
 
   [ LTL, LTR, ...
@@ -58,17 +50,14 @@ fprintf("TRMVP_LN_UNB_VAR1 - See LAFF figure 4.7 (http://www.ulaff.net).\n");
                                     yB, ...
                                     1, 'FLA_BOTTOM' );
     %------------------------------------------------------------%
-    % Calculate according to LAFF Figure 4.7 (http://www.ulaff.net).
-    % Transpose row vectors to column vectors prior to calculating the dot
-    % products with x0 or x2 which are already column vectors.
-    l10 = laff_copy(l10t, x0); 
+    % Calculate according to LAFF Figure 4.3 (http://www.ulaff.net).
+    % Take into account L is lower triangular matrix.
     
-    % Commented out b/c u12t is assumed to be zeros vector based on L being lower triangular matrix.
-    % u12 = laff_copy(u12t, x2);
-    
-    % Calculate psi1 = u10*x0 + upsilon11*chi1 + u12*x2 + psi1
-    % This is the Ax + y calculation after slicing.
-    psi1 = laff_dot(lambda11, chi1) + laff_dot(l10, x0) + psi1;
+    psi1 = laff_dot(l21, x2) + laff_dot(lambda11, chi1) + psi1;
+   
+    % NOTE: L is lower triangular matrix, then laff_dot(l01, x0) is not
+    % required to be added to psi1 because this results in 0 if L is really
+    % a lower triangular matrix.
     %------------------------------------------------------------%
 
     [ LTL, LTR, ...

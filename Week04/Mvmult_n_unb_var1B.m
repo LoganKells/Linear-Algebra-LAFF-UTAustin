@@ -1,6 +1,9 @@
 function [y_out] = Mvmult_n_unb_var1B(A, x, y)
-% MVMULT_N_UNB_VAR1B = [M]atrix-[V]ector [MULT]iply 
-% that is [N]ot trans-posed, [UNB]locked [VAR]iant [1B].
+fprintf("LAFF Homework 4.2.3.1\n");
+fprintf("MVMULT_N_UNB_VAR1B - See LAFF figure 4.2 (http://www.ulaff.net).\n");
+
+% MVMULT_N_UNB_VAR1B = [M]atrix-[V]ector [MULT]iply that is [N]ot trans-posed, 
+% [UNB]locked [VAR]iant [1B].
 
 % This method calculates a matrix-vector multiplication y_out = Ax + y.
 % var1B utilizes an algorithm that slices the matrix into rows which 
@@ -52,15 +55,13 @@ function [y_out] = Mvmult_n_unb_var1B(A, x, y)
                                     1, 'FLA_BOTTOM' );
 
     %------------------------------------------------------------%
-
+    % Calculate according to LAFF Figure 4.2 (http://www.ulaff.net).
     % a10t and a12t are row vectors while x0 and x2 are column vectors. 
     % Transpose a10t prior to calculating the y_out = Ax + y
     a10t_T = laff_copy(a10t, x0);
     a12t_T = laff_copy(a12t, x2);
-    
     % calculate y_out = Ax + y 
     psi1 = laff_dot(a10t_T, x0) + laff_dot(alpha11, chi1) + laff_dot(a12t_T, x2) + psi1;
-    
     %------------------------------------------------------------%
 
     [ ATL, ATR, ...
@@ -85,5 +86,4 @@ function [y_out] = Mvmult_n_unb_var1B(A, x, y)
   y_out = [ yT
             yB ];
 return
-end
 

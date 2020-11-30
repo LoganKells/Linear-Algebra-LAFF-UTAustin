@@ -1,5 +1,7 @@
 function [y_out] = Trmvp_un_unb_var1(U, x, y)
-% TRMVP_UN_UNB_VAR1: 
+fprintf("LAFF Homework 4.3.2.1\n");
+fprintf("TRMVP_UN_UNB_VAR1 - See LAFF figure 4.6 (http://www.ulaff.net).\n");
+
 % TRMVP UN UNB VAR1 = [TR]iangular [M]atrix-[V]ector multiply [P]lus y, 
 % with [U]pper triangular matrix that is [N]ot trans-posed, [UNB]locked
 % [VAR]iant [1].
@@ -51,6 +53,7 @@ function [y_out] = Trmvp_un_unb_var1(U, x, y)
                                     yB, ...
                                     1, 'FLA_BOTTOM' );
     %------------------------------------------------------------%
+    % Calculate according to LAFF Figure 4.6 (http://www.ulaff.net).
     % Transpose row vectors to column vectors prior to calculating the dot
     % products with x0 or x2 which are already column vectors.
     u12 = laff_copy(u12t, x2);

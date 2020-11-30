@@ -1,5 +1,7 @@
 function [y_out] = Trmvp_un_unb_var2(U, x, y)
-% TRMVP_UN_UNB_VAR2
+fprintf("LAFF Homework 4.3.2.1\n");
+fprintf("TRMVP_UN_UNB_VAR2 - See LAFF figure 4.6 (http://www.ulaff.net).\n");
+
 % TRMVP UN UNB VAR2 = [TR]iangular [M]atrix-[V]ector multiply [P]lus y, 
 % with [U]pper triangular matrix that is [N]ot trans-posed, [UNB]locked
 % [VAR]iant [2]
@@ -50,6 +52,7 @@ function [y_out] = Trmvp_un_unb_var2(U, x, y)
                                     yB, ...
                                     1, 'FLA_BOTTOM' );
     %------------------------------------------------------------%
+    % Calculate according to LAFF Figure 4.6 (http://www.ulaff.net).
     % Calculate alpha*x + y operations; where alpha=chi1.
     
     y0 = laff_scal(chi1, u01) + y0;

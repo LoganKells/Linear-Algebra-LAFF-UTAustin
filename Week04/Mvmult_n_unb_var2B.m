@@ -1,7 +1,9 @@
 function [y_out] = Mvmult_n_unb_var2B(A, x, y)
-% MVMULT_N_UNB_VAR2B = [M]atrix-[V]ector [MULT]iply 
-% that is [N]ot trans-posed, [UNB]locked [VAR]iant [2B].
+fprintf("LAFF Homework 4.2.3.1\n");
+fprintf("MVMULT_N_UNB_VAR2B - See LAFF figure 4.2 (http://www.ulaff.net).\n");
 
+% MVMULT_N_UNB_VAR2B = [M]atrix-[V]ector [MULT]iply that is [N]ot trans-posed, 
+% [UNB]locked [VAR]iant [2B].
 
 % This method calculates a matrix-vector multiplication y_out = Ax + y.
 % var2B utilizes an algorithm that slices the matrix into columns
@@ -52,18 +54,14 @@ function [y_out] = Mvmult_n_unb_var2B(A, x, y)
                                     1, 'FLA_BOTTOM' );
 
     %------------------------------------------------------------%
-
-    % Column vector is utilized.
-    
+    % Calculate according to LAFF Figure 4.2 (http://www.ulaff.net).
+    % NOTE: Column vector is utilized.
     % Calculate a*x + y for the top slice, a01, of the A matrix column.
     y0 = laff_scal(chi1, a01) + y0;
-    
     % calculate alpha*chi + psi for the middle scalars.
     psi1 = laff_scal(chi1, alpha11) + psi1;
-    
     % calculate a*x + y for the bottom slice, a21, of the A matrix column.
     y2 = laff_scal(chi1, a21) + y2;
-    
     %------------------------------------------------------------%
 
     [ ATL, ATR, ...
@@ -88,5 +86,4 @@ function [y_out] = Mvmult_n_unb_var2B(A, x, y)
   y_out = [ yT
             yB ];
 return
-end
 

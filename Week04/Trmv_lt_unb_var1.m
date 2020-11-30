@@ -1,17 +1,12 @@
-function [y_out] = Trmvp_ln_unb_var2(L, x, y)
-fprintf("LAFF Homework 4.3.2.3\n");
-fprintf("TRMVP_LN_UNB_VAR2 - See LAFF figure 4.7 (http://www.ulaff.net).\n");
+function [x_out] = Trmv_lt_unb_var1(L, x)
+%TRMV_LT_UNB_VAR1 
 
-% TRMVP_LN_UNB_VAR2 = [TR]iangular [M]atrix-[V]ector multiply [P]lus y, 
-% with [L]ower triangular matrix that is [N]ot trans-posed, [UNB]locked 
-% [VAR]iant [2].
+fprintf("LAFF Homework 4.3.2.9\n");
+fprintf("TRMV_LT_UNB_VAR1 - See LAFF figure 4.3 (http://www.ulaff.net).\n");
 
-% This method calculates a matrix-vector multiplication y_out = Ax + y with
-% efficiency gain by assuming A is an lower triangular matrix (A->L is a
-% lower triangular matrix).
-
-% The matrix L is sliced by rows and columns into sub-matrices
-% and vectors prior to calculating the vector-alpha scalar of L_slice * chi1.
+% TRMV_LT_UNB_VAR1 = [TR]iangular [M]atrix-[V]ector multiply, 
+% with [L]ower triangular matrix that is [T]rans-posed, [UNB]locked 
+% [VAR]iant [1].
 
 % NOTE: The following code was created using the SPARK code generator.
 % http://edx-org-utaustinx.s3.amazonaws.com/UT501x/Spark/index.html
@@ -21,8 +16,8 @@ fprintf("TRMVP_LN_UNB_VAR2 - See LAFF figure 4.7 (http://www.ulaff.net).\n");
 % http://edx-org-utaustinx.s3.amazonaws.com/UT501x/PictureFLAME/PictureFLAME.html
 
 % UT Austin Linear Algebra: Foundations to Frontiers (http://www.ulaff.net)
-% LAFF Homework 4.3.2.3
-% Date: 11/28/2020
+% LAFF Homework 4.3.2.9
+% Date: 11/29/2020
 % Created by: Logan Kells
 
   [ LTL, LTR, ...
@@ -31,10 +26,6 @@ fprintf("TRMVP_LN_UNB_VAR2 - See LAFF figure 4.7 (http://www.ulaff.net).\n");
 
   [ xT, ...
     xB ] = FLA_Part_2x1( x, ...
-                         0, 'FLA_TOP' );
-
-  [ yT, ...
-    yB ] = FLA_Part_2x1( y, ...
                          0, 'FLA_TOP' );
 
   while ( size( LTL, 1 ) < size( L, 1 ) )
@@ -51,21 +42,11 @@ fprintf("TRMVP_LN_UNB_VAR2 - See LAFF figure 4.7 (http://www.ulaff.net).\n");
                                     xB, ...
                                     1, 'FLA_BOTTOM' );
 
-    [ y0, ...
-      psi1, ...
-      y2 ] = FLA_Repart_2x1_to_3x1( yT, ...
-                                    yB, ...
-                                    1, 'FLA_BOTTOM' );
     %------------------------------------------------------------%
-    % Calculate according to LAFF Figure 4.7 (http://www.ulaff.net).
-    % Calculate alpha*x + y operations; where alpha=chi1.
+    % Calculate according to Figure 4.3, taking into account L is lower
+    % triangular matrix.
     
-    % Commented out the next operation because l01 is assumed to be zeros
-    % vector based on L being a lower triangular matrix.
-    % y0 = laff_scal(chi1, u01) + y0;
-    
-    psi1 = laff_scal(chi1, lambda11) + psi1;
-    y2 = laff_scal(chi1, l21) + y2;
+    chi1 = laff_dot(l21, x2) + laff_dot(lambda11, chi1);
     %------------------------------------------------------------%
 
     [ LTL, LTR, ...
@@ -80,13 +61,9 @@ fprintf("TRMVP_LN_UNB_VAR2 - See LAFF figure 4.7 (http://www.ulaff.net).\n");
                                        x2, ...
                                        'FLA_TOP' );
 
-    [ yT, ...
-      yB ] = FLA_Cont_with_3x1_to_2x1( y0, ...
-                                       psi1, ...
-                                       y2, ...
-                                       'FLA_TOP' );
   end
-  y_out = [ yT
-            yB ];
-return
 
+  x_out = [ xT
+            xB ];
+
+return
