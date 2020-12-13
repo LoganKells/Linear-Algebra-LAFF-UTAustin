@@ -1,7 +1,4 @@
-% UT Austin Linear Algebra - Foundations to Frontiers
-% LAFF Tests of algorithms from Week 4.
-% Date: 11/25/2020
-% Created by: Logan Kells
+
 
 disp("***************************");
 fprintf("The weather is predicted to have the following probability of sunny, cloudy, and rainy:");
