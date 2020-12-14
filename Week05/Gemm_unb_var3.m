@@ -1,6 +1,6 @@
 function [C_out] = Gemm_unb_var3(A, B, C)
 
-% GEMM_UNB_VAR1 = [M]atrix [M]atrix [UNB]locked [VAR]iant [3].
+% GEMM_UNB_VAR1 = [G]eneric [M]atrix [M]ultiplication [UNB]locked [VAR]iant [3].
 
 % ------------------------------------------------------------------------
 % UT Austin Linear Algebra: Foundations to Frontiers (http://www.ulaff.net)
