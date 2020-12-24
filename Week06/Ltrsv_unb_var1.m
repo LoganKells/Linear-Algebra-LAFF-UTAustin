@@ -1,18 +1,18 @@
-function [b_out] = ForwardSubstitution(A, b)
-%FORWARDSUBSTITUTION Summary of this function goes here
+function [b_out] = Ltrsv_unb_var1(A, b)
+%LTRSV_UNB_VAR1 
 
-% Performs solving A * x = b for vector x. 
+% Performs solving L * z = b for vector z. 
 % NOTE: The algorithm loop overrides input vector b to save memory operations.
-%       such that x becomes b_out.
+%       such that z becomes b_out.
 
 % ------------------------------------------------------------------------
 % UT Austin Linear Algebra: Foundations to Frontiers (http://www.ulaff.net)
-% LAFF Homework 6.2.4.1
-% Date: 12/20/2020
+% LAFF Homework 6.3.2.1
+% Date: 12/23/2020
 % Created by: Logan Kells
 
-fprintf("LAFF Homework 6.2.4.1\n");
-fprintf("FORWARDSUBSTITUTION - See LAFF figure 6.2 (http://www.ulaff.net).\n");
+fprintf("LAFF Homework 6.3.2.1\n");
+fprintf("LTRSV_UNB_VAR1 - See LAFF figure 6.6 (http://www.ulaff.net).\n");
 
 % NOTE: The following code was created using the SPARK code generator.
 % http://edx-org-utaustinx.s3.amazonaws.com/UT501x/Spark/index.html
@@ -45,9 +45,9 @@ fprintf("FORWARDSUBSTITUTION - See LAFF figure 6.2 (http://www.ulaff.net).\n");
                                     1, 'FLA_BOTTOM' );
 
     %------------------------------------------------------------%
-    % Calculate according to LAFF Figure 6.2 (http://www.ulaff.net).
+    % Calculate according to LAFF Figure 6.6 (http://www.ulaff.net).
     
-    % Compute: b2 = b2 - beta1 * a21
+    % Compute: b2 = b2 - beta1 * a21; a21 = l21.
     %   NOTE: 
     %   y_out = laff_axpy( alpha, x, y ) computes y_out = alpha * x + y.
     b2 = laff_axpy(-beta1, a21, b2);
@@ -72,4 +72,3 @@ fprintf("FORWARDSUBSTITUTION - See LAFF figure 6.2 (http://www.ulaff.net).\n");
             bB ];
 
 return
-

@@ -51,3 +51,66 @@ fprintf("A * x =\n\n");
 display(A * x);
 
 fprintf("*********************************************************\n\n");
+
+fprintf("*********************************************************\n");
+fprintf("Create a matrix.\n");
+% (This matrix was carefully chosen so that only integers
+% are encountered during the process.)
+A = [
+     2     0     1     2 
+    -2    -1     1    -1 
+     4    -1     5     4 
+    -4     1    -3    -8 
+];
+
+% Perform LU factorization
+fprintf("Step 1) Perform Gaussian elimination:\n");
+fprintf("Matrix LU:\n");
+LU = LU_unb_var5( A );
+display(LU);
+
+
+fprintf("Extract the unit lower triangular matrix, L.\n");
+L = tril( LU, -1 ) + eye( size( LU ) );
+display(L);
+
+fprintf("Extract the upper triangular matrix, U.\n");
+U = triu( LU );
+display(U);
+
+fprintf("Check that A = L * U.\n");
+test = A - L * U;
+display(test);
+fprintf("*********************************************************\n\n");
+
+fprintf("*********************************************************\n");
+
+fprintf("Create a unit lower triangular matrix.\n");
+% (This matrix was carefully chosen so that only integers
+% are encountered during the process.)
+L = [
+     1     0     0     0
+    -1     1     0     0
+     2     1     1     0
+    -2    -1     1     1
+];
+display(L);
+
+fprintf("Create a right-hand side.  We are going to solve L x = b.\n");
+b = [
+     2
+     2
+    11
+    -3
+];
+display(b);
+
+fprintf("Solve L x = b.\n");
+x = Ltrsv_unb_var1( L, b );
+display(x);
+
+fprintf("Check that L x = b.\n");
+test = b - L * x;
+display(test);
+
+fprintf("*********************************************************\n\n");

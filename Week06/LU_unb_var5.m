@@ -1,18 +1,18 @@
-function [b_out] = ForwardSubstitution(A, b)
-%FORWARDSUBSTITUTION Summary of this function goes here
+function [A_out] = LU_unb_var5(A)
+%LU_UNB_VAR5 
 
-% Performs solving A * x = b for vector x. 
-% NOTE: The algorithm loop overrides input vector b to save memory operations.
-%       such that x becomes b_out.
+% Performs Gaussian Elimination by LU Factorization; A = LU.
+% NOTE: The algorithm loop overrides the input matrix A to save memory operations
+%       such that LU becomes A_out.
 
 % ------------------------------------------------------------------------
 % UT Austin Linear Algebra: Foundations to Frontiers (http://www.ulaff.net)
-% LAFF Homework 6.2.4.1
-% Date: 12/20/2020
+% LAFF Homework 6.3.1.1
+% Date: 12/23/2020
 % Created by: Logan Kells
 
-fprintf("LAFF Homework 6.2.4.1\n");
-fprintf("FORWARDSUBSTITUTION - See LAFF figure 6.2 (http://www.ulaff.net).\n");
+fprintf("LAFF Homework 6.3.1.1\n");
+fprintf("GAUSSIANELIMINATION - See LAFF figure 6.3 (http://www.ulaff.net).\n");
 
 % NOTE: The following code was created using the SPARK code generator.
 % http://edx-org-utaustinx.s3.amazonaws.com/UT501x/Spark/index.html
@@ -26,10 +26,6 @@ fprintf("FORWARDSUBSTITUTION - See LAFF figure 6.2 (http://www.ulaff.net).\n");
     ABL, ABR ] = FLA_Part_2x2( A, ...
                                0, 0, 'FLA_TL' );
 
-  [ bT, ...
-    bB ] = FLA_Part_2x1( b, ...
-                         0, 'FLA_TOP' );
-
   while ( size( ATL, 1 ) < size( A, 1 ) )
 
     [ A00,  a01,     A02,  ...
@@ -38,20 +34,25 @@ fprintf("FORWARDSUBSTITUTION - See LAFF figure 6.2 (http://www.ulaff.net).\n");
                                                     ABL, ABR, ...
                                                     1, 1, 'FLA_BR' );
 
-    [ b0, ...
-      beta1, ...
-      b2 ] = FLA_Repart_2x1_to_3x1( bT, ...
-                                    bB, ...
-                                    1, 'FLA_BOTTOM' );
-
     %------------------------------------------------------------%
-    % Calculate according to LAFF Figure 6.2 (http://www.ulaff.net).
+    % Calculate according to LAFF Figure 6.3 (http://www.ulaff.net).
     
-    % Compute: b2 = b2 - beta1 * a21
-    %   NOTE: 
-    %   y_out = laff_axpy( alpha, x, y ) computes y_out = alpha * x + y.
-    b2 = laff_axpy(-beta1, a21, b2);
+    % a21 = a21/alpha11 = l21
+    %   NOTE:
+    %   x_out = laff_invscal( alpha, x ) scales vector x by 1/alpha
+    %   Vector x a column or row vector.  In other words, x can be 
+    %   a n x 1 or 1 x n array.  However, one size must equal 1 and the 
+    %   other size equal n.
+    a21 = laff_invscal(alpha11, a21); % a21 = (1 / alpha11) * a21 = l21;
     
+    % Update A22 = A22 - a21 * a12t
+    %   Note: a12t is a row vector
+    %   NOTE we will use laff_ger( alpha, x, y, A )
+    %       computes alpha * x * y' + A
+    %       but it is a bit tricky: x and y can be row or column vectors, in any
+    %       combination.
+    A22 = laff_ger(-1, a21, a12t, A22);
+
     %------------------------------------------------------------%
 
     [ ATL, ATR, ...
@@ -60,16 +61,10 @@ fprintf("FORWARDSUBSTITUTION - See LAFF figure 6.2 (http://www.ulaff.net).\n");
                                              A20,  a21,     A22, ...
                                              'FLA_TL' );
 
-    [ bT, ...
-      bB ] = FLA_Cont_with_3x1_to_2x1( b0, ...
-                                       beta1, ...
-                                       b2, ...
-                                       'FLA_TOP' );
-
   end
 
-  b_out = [ bT
-            bB ];
+  A_out = [ ATL, ATR
+            ABL, ABR ];
 
 return
 

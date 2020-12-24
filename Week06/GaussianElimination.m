@@ -1,5 +1,10 @@
 function [A_out] = GaussianElimination(A)
 % GAUSSIANELIMINATION
+
+% Performs Gaussian Elimination by LU Factorization; A = LU.
+% NOTE: The algorithm loop overrides the input matrix A to save memory operations
+%       such that LU becomes A_out.
+
 % Performs Gaussian Elmination to solve for the 
 % matrix E such that E*A = LU (LU is the combination (addition) of the
 % Lower triangular matrix representing E, and the upper triangular Matrix
