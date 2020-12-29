@@ -11,15 +11,8 @@ function [A_out] = LU_unb_var5(A)
 % Date: 12/23/2020
 % Created by: Logan Kells
 
-fprintf("LAFF Homework 6.3.1.1\n");
-fprintf("GAUSSIANELIMINATION - See LAFF figure 6.3 (http://www.ulaff.net).\n");
-
 % NOTE: The following code was created using the SPARK code generator.
 % http://edx-org-utaustinx.s3.amazonaws.com/UT501x/Spark/index.html
-
-% NOTE: You can review a visualization of this algorithm by copying the
-% code to this applicaiton.
-% http://edx-org-utaustinx.s3.amazonaws.com/UT501x/PictureFLAME/PictureFLAME.html
 % -----------------------------------------------------------------------
 
   [ ATL, ATR, ...

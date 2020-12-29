@@ -1,6 +1,6 @@
-function [b_out] = Ltrsv_unb_var1(L, b)
-%LTRSV_UNB_VAR1 
-% [L]ower [TR]iangular [S]ol[V]e [UNB]locked [VAR]iant [1]
+function [b_out] = Ltrsv_unb_var2(L, b)
+% LTRSV_UNB_VAR2
+% [L]ower [TR]iangular [S]ol[V]e [UNB]locked [VAR]iant [2]
 
 % Performs solving L * z = b for vector z. 
 % NOTE: The algorithm loop overrides input vector b to save memory operations.
@@ -8,15 +8,14 @@ function [b_out] = Ltrsv_unb_var1(L, b)
 
 % ------------------------------------------------------------------------
 % UT Austin Linear Algebra: Foundations to Frontiers (http://www.ulaff.net)
-% LAFF Homework 6.3.2.1
-% Date: 12/23/2020
+% LAFF Homework 7.2.1.7
+% Date: 12/28/2020
 % Created by: Logan Kells
 
 % NOTE: The following code was created using the SPARK code generator.
 % http://edx-org-utaustinx.s3.amazonaws.com/UT501x/Spark/index.html
 
 % -----------------------------------------------------------------------
-
   [ LTL, LTR, ...
     LBL, LBR ] = FLA_Part_2x2( L, ...
                                0, 0, 'FLA_TL' );
@@ -40,11 +39,12 @@ function [b_out] = Ltrsv_unb_var1(L, b)
                                     1, 'FLA_BOTTOM' );
 
     %------------------------------------------------------------%
-    % Calculate according to LAFF Figure 6.6 (http://www.ulaff.net).
+    % Calculate according to LAFF Figure 7.3 (http://www.ulaff.net).
     
-    % Solve x2 = b2 - beta1 * l21. 
-    % Store result of x2 in b2 memory location.
-    b2 = laff_axpy(-beta1, l21, b2);
+    % Solve chi1 = (beta1 - l10t * x0) * (1 / lambda11). 
+    % store x1 result in the beta1 memory location.
+    beta1 = beta1 - laff_dot(l10t, b0);
+
     %------------------------------------------------------------%
 
     [ LTL, LTR, ...
